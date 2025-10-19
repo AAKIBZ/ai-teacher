@@ -8,7 +8,11 @@ class MessagesRepository {
 
   final Map<String, StreamController<List<MessageModel>>> _channels = {};
 
-  Stream<List<MessageModel>> watchLatest(String uid, String subject, {int limit = 100}) {
+  Stream<List<MessageModel>> watchLatest(
+    String uid,
+    String subject, {
+    int limit = 100,
+  }) {
     final key = '$uid::$subject';
     var ctrl = _channels[key];
     if (ctrl == null || ctrl.isClosed) {
@@ -33,7 +37,7 @@ class MessagesRepository {
     _channels['$uid::$subject']?.add(list);
   }
 
-  Future<int>   insertMessage(MessageModel m) async {
+  Future<int> insertMessage(MessageModel m) async {
     final db = await _db;
     final id = await db.insert('messages', m.toMap());
     await _emit(m.uid, m.subject, 100);

@@ -20,10 +20,14 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     final router = GoRouter(
       routes: [
-        GoRoute(path: '/', builder: (_, __) => AuthGate(child: SubjectGridPage())),
+        GoRoute(
+          path: '/',
+          builder: (_, __) => AuthGate(child: SubjectGridPage()),
+        ),
         GoRoute(
           path: '/chat/:subject',
-          builder: (ctx, st) => AuthGate(child: ChatPage(subject: st.pathParameters['subject']!)),
+          builder: (ctx, st) =>
+              AuthGate(child: ChatPage(subject: st.pathParameters['subject']!)),
         ),
       ],
     );
@@ -36,7 +40,3 @@ class App extends StatelessWidget {
     );
   }
 }
-
-
-
-

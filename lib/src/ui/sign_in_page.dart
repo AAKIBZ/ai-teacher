@@ -15,20 +15,33 @@ class _SignInPageState extends State<SignInPage> {
 
   Future<void> _signIn() async {
     FocusScope.of(context).unfocus();
-    setState((){ loading = true; error = null; });
+    setState(() {
+      loading = true;
+      error = null;
+    });
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email.text.trim(), password: pass.text);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Logged In as ${email.text.trim()}')));
-    } on FirebaseAuthException catch(e) {
+        email: email.text.trim(),
+        password: pass.text,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Logged In as ${email.text.trim()}')),
+      );
+    } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: email.text.trim(), password: pass.text);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Account created for ${email.text.trim()}')));
+          email: email.text.trim(),
+          password: pass.text,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Account created for ${email.text.trim()}')),
+        );
       } else {
-        setState(()=> error = e.message);
+        setState(() => error = e.message);
       }
-    } finally { setState(()=> loading = false); }
+    } finally {
+      setState(() => loading = false);
+    }
   }
 
   @override
@@ -41,19 +54,41 @@ class _SignInPageState extends State<SignInPage> {
             elevation: 2,
             child: Padding(
               padding: const EdgeInsets.all(24),
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
-                const Text('AI Teacher', style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 16),
-                TextField(controller: email, decoration: const InputDecoration(labelText: 'Email')),
-                const SizedBox(height: 8),
-                TextField(controller: pass, obscureText: true, decoration: const InputDecoration(labelText: 'Password')),
-                const SizedBox(height: 16),
-                FilledButton(onPressed: loading? null : _signIn, child: Text(loading? 'Please wait…' : 'Sign in / Create account')),
-                if (error!=null) Padding(
-                  padding: const EdgeInsets.only(top:12),
-                  child: Text(error!, style: const TextStyle(color: Colors.red)),
-                )
-              ]),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'AI Teacher',
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: email,
+                    decoration: const InputDecoration(labelText: 'Email'),
+                  ),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: pass,
+                    obscureText: true,
+                    decoration: const InputDecoration(labelText: 'Password'),
+                  ),
+                  const SizedBox(height: 16),
+                  FilledButton(
+                    onPressed: loading ? null : _signIn,
+                    child: Text(
+                      loading ? 'Please wait…' : 'Sign in / Create account',
+                    ),
+                  ),
+                  if (error != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12),
+                      child: Text(
+                        error!,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
         ),

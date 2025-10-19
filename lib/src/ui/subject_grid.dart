@@ -179,18 +179,21 @@ class _SubjectGridPageState extends ConsumerState<SubjectGridPage> {
                         // subjects should be added to db and fetched from there
                         FocusScope.of(context).unfocus();
                         Navigator.pop(context);
-                       final uid = FirebaseAuth.instance.currentUser!.uid;
-                        final id = await ref.watch(subjectsRepoProvider).insertSubject(uid, text);
+                        final uid = FirebaseAuth.instance.currentUser!.uid;
+                        final id = await ref
+                            .watch(subjectsRepoProvider)
+                            .insertSubject(uid, text);
                         if (id != -1) {
                           setState(() {
                             _subjects.insert(0, text);
                           });
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Subject "$text" already exists.')),
+                            SnackBar(
+                              content: Text('Subject "$text" already exists.'),
+                            ),
                           );
                         }
-
                       }
                     },
                     child: const Text('Add'),

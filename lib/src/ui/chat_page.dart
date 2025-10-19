@@ -96,7 +96,9 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                                   ctrl.clear();
                                   FocusScope.of(context).unfocus();
                                   ref.read(chatRepoProvider).sending(true);
-                                  await ref.read(chatRepoProvider).send(widget.subject, q);
+                                  await ref
+                                      .read(chatRepoProvider)
+                                      .send(widget.subject, q);
                                 } finally {
                                   ref.read(chatRepoProvider).sending(false);
                                 }
@@ -109,15 +111,17 @@ class _ChatPageState extends ConsumerState<ChatPage> {
               ),
             ],
           ),
-          sending ? Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: LinearProgressIndicator(
-              color: Theme.of(context).colorScheme.primary,
-              backgroundColor: Colors.transparent,
-            ),
-          ) : SizedBox.shrink(),
+          sending
+              ? Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: LinearProgressIndicator(
+                    color: Theme.of(context).colorScheme.primary,
+                    backgroundColor: Colors.transparent,
+                  ),
+                )
+              : SizedBox.shrink(),
         ],
       ),
     );

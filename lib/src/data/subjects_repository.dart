@@ -62,5 +62,6 @@ class SubjectsRepository {
   }
 }
 
-final subjectsRepoProvider = Provider<SubjectsRepository>((_) => SubjectsRepository());
-
+final subjectsRepoProvider = Provider<SubjectsRepository>(
+  (_) => SubjectsRepository(),
+);

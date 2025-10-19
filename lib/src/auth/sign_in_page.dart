@@ -14,15 +14,22 @@ class _SignInPageState extends State<SignInPage> {
   String? error;
 
   Future<void> _signIn() async {
-    setState(() { loading = true; error = null; });
+    setState(() {
+      loading = true;
+      error = null;
+    });
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email.text.trim(), password: pass.text);
+        email: email.text.trim(),
+        password: pass.text,
+      );
     } on FirebaseAuthException catch (e) {
       debugPrint("CODE = ${e.code}, MESSAGE = ${e.message}");
       if (e.code == 'invalid-credential') {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: email.text.trim(), password: pass.text);
+          email: email.text.trim(),
+          password: pass.text,
+        );
       } else {
         setState(() => error = e.message);
       }
@@ -40,19 +47,39 @@ class _SignInPageState extends State<SignInPage> {
           child: Card(
             child: Padding(
               padding: const EdgeInsets.all(24),
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
-                const Text('AI Teacher', style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 16),
-                TextField(controller: email, decoration: const InputDecoration(labelText: 'Email')),
-                const SizedBox(height: 8),
-                TextField(controller: pass, obscureText: true, decoration: const InputDecoration(labelText: 'Password')),
-                const SizedBox(height: 16),
-                FilledButton(onPressed: loading ? null : _signIn, child: Text(loading ? 'Please wait…' : 'Sign in / Create')),
-                if (error != null) Padding(
-                  padding: const EdgeInsets.only(top: 12),
-                  child: Text(error!, style: const TextStyle(color: Colors.red)),
-                ),
-              ]),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'AI Teacher',
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: email,
+                    decoration: const InputDecoration(labelText: 'Email'),
+                  ),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: pass,
+                    obscureText: true,
+                    decoration: const InputDecoration(labelText: 'Password'),
+                  ),
+                  const SizedBox(height: 16),
+                  FilledButton(
+                    onPressed: loading ? null : _signIn,
+                    child: Text(loading ? 'Please wait…' : 'Sign in / Create'),
+                  ),
+                  if (error != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12),
+                      child: Text(
+                        error!,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
         ),

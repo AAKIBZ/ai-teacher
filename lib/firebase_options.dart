@@ -85,5 +85,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'aiteacher-3a072.firebasestorage.app',
     measurementId: 'G-V4Y265JE5V',
   );
-
 }

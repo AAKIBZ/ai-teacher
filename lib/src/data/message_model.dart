@@ -2,7 +2,7 @@ class MessageModel {
   final int? id;
   final String uid;
   final String subject;
-  final String role;     // 'user' | 'model'
+  final String role; // 'user' | 'model'
   final String content;
   final DateTime createdAt;
 
